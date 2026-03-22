@@ -1,0 +1,170 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("/assets/fonts/BricolageGrotesque.woff2") format("woff2");
+  font-weight: 200 800;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --radius: 0.75rem;
+    /* Navy cosmos dark theme */
+    --background: 0.14 0.04 265;
+    --foreground: 0.95 0.01 265;
+    --card: 0.18 0.05 265;
+    --card-foreground: 0.95 0.01 265;
+    --popover: 0.18 0.05 265;
+    --popover-foreground: 0.95 0.01 265;
+    --primary: 0.72 0.18 162;
+    --primary-foreground: 0.1 0.04 162;
+    --secondary: 0.22 0.06 265;
+    --secondary-foreground: 0.95 0.01 265;
+    --muted: 0.22 0.04 265;
+    --muted-foreground: 0.65 0.03 265;
+    --accent: 0.72 0.18 162;
+    --accent-foreground: 0.1 0.04 162;
+    --destructive: 0.65 0.22 15;
+    --destructive-foreground: 0.98 0 0;
+    --border: 0.28 0.05 265;
+    --input: 0.28 0.05 265;
+    --ring: 0.72 0.18 162;
+    --warn: 0.85 0.18 80;
+    --chart-1: 0.72 0.18 162;
+    --chart-2: 0.65 0.22 15;
+    --chart-3: 0.85 0.18 80;
+    --chart-4: 0.6 0.2 265;
+    --chart-5: 0.55 0.22 290;
+    --sidebar: 0.16 0.04 265;
+    --sidebar-foreground: 0.95 0.01 265;
+    --sidebar-primary: 0.72 0.18 162;
+    --sidebar-primary-foreground: 0.1 0.04 162;
+    --sidebar-accent: 0.22 0.06 265;
+    --sidebar-accent-foreground: 0.95 0.01 265;
+    --sidebar-border: 0.28 0.05 265;
+    --sidebar-ring: 0.72 0.18 162;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Bricolage Grotesque", "Arial", sans-serif;
+  }
+}
+
+/* ── Card flip 3D ── */
+.card-shell {
+  perspective: 1000px;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.42s ease;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  will-change: transform;
+}
+
+.card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  user-select: none;
+}
+
+.card-front {
+  background: linear-gradient(150deg, #4b3fcc, #1e2068);
+  color: #c8c7ff;
+  font-size: clamp(1rem, 4vw, 1.6rem);
+}
+
+.card-back {
+  background: linear-gradient(155deg, #ffd166, #ffb703);
+  color: #2a1500;
+  transform: rotateY(180deg);
+}
+
+.card-matched .card-inner {
+  box-shadow: 0 0 0 3px rgba(6, 214, 160, 0.7), 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.card-match-pop .card-inner {
+  animation: matchPop 0.32s ease;
+}
+
+@keyframes matchPop {
+  0% {
+    transform: rotateY(180deg) scale(1);
+  }
+  50% {
+    transform: rotateY(180deg) scale(1.12);
+  }
+  100% {
+    transform: rotateY(180deg) scale(1);
+  }
+}
+
+.emoji-display {
+  font-size: clamp(1.8rem, 5.5vw, 2.6rem);
+  line-height: 1;
+  display: inline-block;
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji",
+    sans-serif;
+  filter: saturate(1.1);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5), 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* ── Board layout ── */
+.board-grid {
+  display: grid;
+  gap: 10px;
+  touch-action: manipulation;
+}
+
+/* ── Win overlay fade ── */
+.overlay-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 10, 32, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 50;
+  animation: fadein 0.2s ease;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Glass panel */
+.glass {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
